@@ -8,10 +8,10 @@ const rootElement = document.getElementById('root');
 const App = () => {
 
     const todoData = [
-        { label: "Learn JavaScript", important: false, },
-        { label: "Learn ReactJS", important: true, },
-        { label: "Build ReactJS App", important: true, },
-        { label: "Profit!", important: false, },
+        { label: "Learn JavaScript", important: false, id: 0, },
+        { label: "Learn ReactJS", important: true, id: 1, },
+        { label: "Build ReactJS App", important: true, id: 2, },
+        { label: "Profit!", important: false, id: 3, },
     ];
 
     return (
