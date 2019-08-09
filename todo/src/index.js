@@ -1,16 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import AppHeader from './components/app-header';
+import SearchPanel from './components/search-panel';
+import TodoList from './components/todo-list';
 
 const rootElement = document.getElementById('root');
-const el = (<div>
-    <h1>My Todo List</h1>
-    <input type="serach" placeholder="search" autoComplete="off" />
-    <ul>
-        <li>Learn JavaScript</li>
-        <li>Learn React</li>
-        <li>Build an App</li>
-        <li>Profit!</li>
-    </ul>
-</div>);
+const App = () => {
 
-ReactDOM.render(el, rootElement);
+    return (
+        <div>
+            <AppHeader />
+            <SearchPanel />
+            <TodoList />
+        </div>
+    );
+};
+
+ReactDOM.render(<App />, rootElement);
