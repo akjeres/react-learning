@@ -5,37 +5,42 @@ export default class TodoListItem extends Component {
     
     constructor() {
         super();
-        
+
         this.state = {
             done: false,
+            important: false,
         };
         this.onLabelClick = () => {
             console.log(`Done: ${this.props.label}`);
-            console.log(this.state);
-            this.setState({
-                done: !this.state['done'],
+            console.log('Done ', this.state);
+            this.setState((state) => {
+                return {
+                    done: !state['done'],
+                };
             });
         };
+        this.onMarkImportant = () => {
+            console.log('Important ', this.state);
+            this.setState((state) => {
+                return {
+                    important: !state['important'],
+                };
+            });
+        }
     };
 
     render() {
 
-        const { label, important = false } = this.props;
-        const { done } = this.state;
+        const { label } = this.props;
+        const { done, important } = this.state;
 
-        let className = `todo-list-item${ done ? ' done' : '' }`;
-
-        const style = {
-            color: important ? 'steelblue' : 'black',
-            fontWeight: important ? 'bold' : 'normal',
-        };
+        let className = `todo-list-item${ done ? ' done' : '' }${ important ? ' important' : '' }`;
 
         return (
             <span className={ className }>
                 <span
                     className="todo-list-item-label"
                     title={ label }
-                    style={ style } 
                     onClick={ this.onLabelClick } >
                     { label }
                 </span>
@@ -44,7 +49,8 @@ export default class TodoListItem extends Component {
                     <i className="fa fa-trash-o" />
                 </button>
                 <button type="button"
-                        className="btn btn-outline-success btn-sm">
+                        className="btn btn-outline-success btn-sm"
+                        onClick={ this.onMarkImportant } >
                     <i className="fa fa-exclamation" />
                 </button>
             </span>
