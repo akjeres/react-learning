@@ -1,5 +1,8 @@
 .todo-list-item {
     font-size: 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
 }
 .todo-list-item button {
     width: 35px;
@@ -10,6 +13,14 @@
     line-height:  35px;
     cursor: pointer;
     user-select: none;
+    display: block;
+    overflow: hidden;
+    padding-right: 3px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.todo-list-item-label + button {
+    margin-left: auto;
 }
 .todo-list-item.done .todo-list-item-label {
     text-decoration: line-through;
