@@ -41,6 +41,34 @@ export default class App extends Component {
                 };
             });
         }
+
+        this.toggleImportant = (id) => {
+            console.log('toggleImportant ', id);
+            this.setState(( { todoData } ) => {
+                return {
+                    todoData: todoData.map((i) => {
+                        if (i['id'] === id) {
+                            i['important'] = !i['important'];
+                        }
+                        return i;
+                    })
+                };
+            });
+        };
+
+        this.toggleDone = (id) => {
+            console.log('toggleDone ', id);
+            this.setState(( { todoData } ) => {
+                return {
+                    todoData: todoData.map((i) => {
+                        if (i['id'] === id) {
+                            i['done'] = !i['done'];
+                        }
+                        return i;
+                    })
+                };
+            });
+        };
     }
 
     render() {
@@ -53,7 +81,10 @@ export default class App extends Component {
                 </div>
                 <TodoList 
                     todos={ this.state.todoData } 
-                    onDeleted={ this.deleteItem }/>
+                    onDeleted={ this.deleteItem }
+                    onToggleImportant={ this.toggleImportant }
+                    onToggleDone={ this.toggleDone }
+                />
                 <ItemAddForm 
                     onItemAdded={ () => this.addItem((new Date()).getTime()) } />
             </div>
