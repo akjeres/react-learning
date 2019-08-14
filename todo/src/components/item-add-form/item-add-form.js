@@ -2,10 +2,6 @@ import React, { Component } from 'react';
 import './item-add-form.css';
 
 export default class ItemAddForm extends Component {
-    constructor() {
-        super();
-    }
-
     render() {
         const { onItemAdded } = this.props;
 

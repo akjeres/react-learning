@@ -15,7 +15,6 @@ export default class TodoListItem extends Component {
          } = this.props;
 
         let className = `todo-list-item${ done ? ' done' : '' }${ important ? ' important' : '' }`;
-
         return (
             <span className={ className }>
                 <span

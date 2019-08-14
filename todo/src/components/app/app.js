@@ -12,12 +12,21 @@ export default class App extends Component {
 
         this.maxId = 100;
 
+        const createTodoItem = ( { label, important = false, done = false } ) => {
+            return ({
+                label,
+                important,
+                done,
+                id: this.maxId++,
+            })
+        }
+
         this.state = {
             todoData: [
-                { label: "Learn JavaScript", important: false, id: 0, },
-                { label: "Learn ReactJS", important: true, id: 1, },
-                { label: "Build ReactJS App", important: true, id: 2, },
-                { label: "Profit!", important: false, id: 3, },
+                createTodoItem( { label: "Learn JavaScript" } ),
+                createTodoItem( { label: "Learn ReactJS", done: true, important: true, } ),
+                createTodoItem( { label: "Build ReactJS App", important: true, } ),
+                createTodoItem( { label: "Profit!" } ),
             ],
         };
 
@@ -33,54 +42,55 @@ export default class App extends Component {
             console.log('item added ', text);
             this.setState(( { todoData } ) => {
                 return {
-                    todoData: todoData.concat({
-                        label: text,
-                        important: false,
-                        id: this.maxId++,
-                    }),
+                    todoData: todoData.concat( createTodoItem( { label: text } ) ),
                 };
             });
         }
+        
+        this.toggleProperty = ( arr, param, id ) => {
+            return arr.map( (i) => {
+                if (i['id'] === id) {
+                    i[param] = !i[param];
+                }
+                return i;
+            } );
+        }
 
         this.toggleImportant = (id) => {
-            console.log('toggleImportant ', id);
             this.setState(( { todoData } ) => {
-                return {
-                    todoData: todoData.map((i) => {
-                        if (i['id'] === id) {
-                            i['important'] = !i['important'];
-                        }
-                        return i;
-                    })
-                };
-            });
+                    return ({
+                        todoData: this.toggleProperty( todoData, 'important', id ),
+                    });
+                }
+            );
         };
 
         this.toggleDone = (id) => {
-            console.log('toggleDone ', id);
             this.setState(( { todoData } ) => {
-                return {
-                    todoData: todoData.map((i) => {
-                        if (i['id'] === id) {
-                            i['done'] = !i['done'];
-                        }
-                        return i;
-                    })
-                };
-            });
+                return ({
+                    todoData: this.toggleProperty( todoData, 'done', id ),
+                });
+            }
+        );
         };
     }
 
     render() {
+
+        const { todoData } = this.state;
+        const doneCount = todoData.filter((i) => !!i['done']).length;
+        const toDoCount = todoData.length - doneCount;
+        console.log('doneCount ', doneCount);
+
         return (
             <div className="todo-app">
-                <AppHeader toDo={ 1 } done={ 3 }/>
+                <AppHeader toDo={ toDoCount } done={ doneCount }/>
                 <div className='top-panel d-flex justify-content-between'>
                     <SearchPanel />
                     <ItemStatusFilter />
                 </div>
                 <TodoList 
-                    todos={ this.state.todoData } 
+                    todos={ todoData } 
                     onDeleted={ this.deleteItem }
                     onToggleImportant={ this.toggleImportant }
                     onToggleDone={ this.toggleDone }
