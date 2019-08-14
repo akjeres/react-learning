@@ -96,7 +96,7 @@ export default class App extends Component {
                     onToggleDone={ this.toggleDone }
                 />
                 <ItemAddForm 
-                    onItemAdded={ () => this.addItem((new Date()).getTime()) } />
+                    onItemAdded={ ( labelText ) => this.addItem( labelText ) } />
             </div>
         );
     };

@@ -11,7 +11,8 @@ const SearchPanel = () => {
         <input type="search"
             placeholder={seatchText}
             autoComplete={autoComplete}
-            tabIndex={tabIndex} />
+            tabIndex={tabIndex} 
+            className="form-control top-panel-search" />
     );
 };
 
