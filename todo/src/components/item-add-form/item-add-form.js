@@ -20,11 +20,14 @@ export default class ItemAddForm extends Component {
 
         this.onSubmit = (e) => {
             e.preventDefault();
-            const input = e.target.elements[0];
             const { onItemAdded } = this.props;
             onItemAdded( this.state['label'] );
-            input.blur();
-            input.value = '';
+            this.setState(( { label } ) => {       
+                return {
+                    label: '',
+                };
+            });
+
         };
     }
     render() {
@@ -35,7 +38,8 @@ export default class ItemAddForm extends Component {
                        autoComplete="off"
                        placeholder="Type new item label here"
                        className="form-control item-add-form-name"
-                       onChange={ this.onLabelChange } />
+                       onChange={ this.onLabelChange }
+                       value={ this.state['label'] } />
                 <button type="submit"
                         className="btn btn-sm btn-outline-secondary item-add-form-button" >Add Item</button>
             </form>
