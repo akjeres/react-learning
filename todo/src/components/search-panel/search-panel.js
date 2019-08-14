@@ -1,19 +1,35 @@
-import React from 'react';
+import React, { Component } from 'react';
 import './search-panel.css';
 
-const SearchPanel = () => {
+export default class SearchPanel extends Component {
 
-    const seatchText = 'Type here to search';
-    const autoComplete = 'off';
-    const tabIndex = '1';
+    constructor() {
+        super();
 
-    return (
-        <input type="search"
-            placeholder={seatchText}
-            autoComplete={autoComplete}
-            tabIndex={tabIndex} 
-            className="form-control top-panel-search" />
-    );
+        this.state = {
+            value: '',
+        };
+
+        this.onFilterChange = (e) => {
+            const inputValue = e.target.value;
+            const { onFilter } = this.props;
+            onFilter(inputValue);
+            this.setState(( { value } ) => {
+                return ({
+                    value: inputValue,
+                });
+            });
+        };
+    }
+
+    render() {
+
+        console.log(this.state);
+        return (<input type="text"
+            placeholder='Type here to search'
+            autoComplete='off'
+            tabIndex='1'
+            onChange={ this.onFilterChange }
+            value={ this.state['value'] }
+            className="form-control top-panel-search" />)};
 };
-
-export default SearchPanel;
