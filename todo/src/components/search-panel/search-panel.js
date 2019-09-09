@@ -24,7 +24,6 @@ export default class SearchPanel extends Component {
 
     render() {
 
-        console.log(this.state);
         return (<input type="text"
             placeholder='Type here to search'
             autoComplete='off'

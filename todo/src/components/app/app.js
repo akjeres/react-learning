@@ -22,14 +22,13 @@ export default class App extends Component {
         }
 
         this.state = {
-            filterValue: '',
-            propertyToFilter: 'label',
             todoData: [
                 createTodoItem( { label: "Learn JavaScript" } ),
                 createTodoItem( { label: "Learn ReactJS", done: true, important: true, } ),
                 createTodoItem( { label: "Build ReactJS App", important: true, } ),
                 createTodoItem( { label: "Profit!" } ),
             ],
+            doneStatus: 'true',
         };
 
         this.deleteItem = (id) => {
@@ -76,15 +75,15 @@ export default class App extends Component {
             );
         };
 
-        this.filterElements = (arr, field, value) => {
+        this.filterElements = (arr, field, value = '') => {
             if (value !== '') return arr.filter((i) => {
                 const re = new RegExp(value, 'ig');
 
-                return !!i[field].match(re);
+                return re.test(i[field]);
             });
             
             return arr;
-        }
+        };
 
         this.filterElems = ( value, property ) => {
             this.setState(( { filterValue, propertyToFilter } ) => {
@@ -94,21 +93,32 @@ export default class App extends Component {
                 };
             });
         }
+
+        this.filterByStatus = ( doneStatusFilter ) => {
+            this.setState(( { doneStatus } ) => {
+                return {
+                    doneStatus: doneStatusFilter,
+                };
+            });
+        }
+        
     }
 
     render() {
-
-        const { todoData, filterValue, propertyToFilter } = this.state;
+        const { todoData, doneStatus, filterValue, propertyToFilter } = this.state;
         const doneCount = todoData.filter((i) => !!i['done']).length;
         const toDoCount = todoData.length - doneCount;
-        const dataTorender = this.filterElements(todoData, propertyToFilter, filterValue);
+        let dataTorender = this.filterElements(this.filterElements(todoData, propertyToFilter, filterValue), 'done', doneStatus);
 
         return (
             <div className="todo-app">
                 <AppHeader toDo={ toDoCount } done={ doneCount }/>
                 <div className='top-panel d-flex justify-content-between'>
                     <SearchPanel onFilter={ (filterText) => this.filterElems( filterText, 'label' ) }/>
-                    <ItemStatusFilter />
+                    <ItemStatusFilter
+                        onFilterStatus={ (value) => this.filterByStatus(value) }
+                        doneStatus={ doneStatus }
+                    />
                 </div>
                 <TodoList 
                     todos={ dataTorender } 
