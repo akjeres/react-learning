@@ -1,19 +1,85 @@
+class SWAPIService {
 
-const getResource = async (url) => {
-    const res = await fetch(url);
+    _apiBase = 'https://swapi.co/api';
 
-    if (!res.ok) {
-        throw new Error(`Cound not fetch ${url}, received ${res.status}`);
+    async getResource(url) {
+        const res = await fetch(`${this._apiBase}${url}`);
+
+        if (!res.ok) {
+            throw new Error(`Cound not fetch ${url}, received ${res.status}`);
+        }
+
+        return await res.json();
     }
-    const body = await res.json();
 
-    return body;
+    async getAllPeople() {
+        const res = await this.getResource(`/people/`);
+
+        return res.results;
+    }
+
+    getPerson(id) {
+        return this.getResource(`/people/${id}/`);
+    }
+
+    async getAllFilms() {
+        const res = await this.getResource(`/films/`);
+
+        return res.results;
+    }
+
+    getFilm(id) {
+        return this.getResource(`/films/${id}/`);
+    }
+
+    async getAllStarships() {
+        const res = await this.getResource(`/starships/`);
+
+        return res.results;
+    }
+
+    getStarship(id) {
+        return this.getResource(`/starships/${id}/`);
+    }
+
+    async getAllVehicles() {
+        const res = await this.getResource(`/vehicles/`);
+
+        return res.results;
+    }
+
+    getVehicle(id) {
+        return this.getResource(`/vehicles/${id}/`);
+    }
+
+    async getAllSpecies() {
+        const res = await this.getResource(`/species/`);
+
+        return res.results;
+    }
+
+    getSpecie(id) {
+        return this.getResource(`/species/${id}/`);
+    }
+
+    async getAllPlanets() {
+        const res = await this.getResource(`/planets/`);
+
+        return res.results;
+    }
+
+    getPlanet(id) {
+        return this.getResource(`/planets/${id}/`);
+    }
 }
 
-getResource('https://swapi.co/api/people/1/')
-    .then((body) => {
-        console.log(body);
-    })
-    .catch((err) => {
-        console.error(err);
-    });
+const swapi = new SWAPIService();
+
+// swapi.getAllPeople().then((people) => {
+//     people.map((i) => {
+//         console.log(i['name']);
+//     });
+// });
+swapi.getPerson(10).then((person) => {
+    console.log(person.name);
+});
