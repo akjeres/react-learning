@@ -1,12 +1,8 @@
-import SWAPIService from './services/swapi-service';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './components/app/';
 
-const swapi = new SWAPIService();
 
-// swapi.getAllPeople().then((people) => {
-//     people.map((i) => {
-//         console.log(i['name']);
-//     });
-// });
-swapi.getPerson(10).then((person) => {
-    console.log(person.name);
-});
+const rootElement = document.getElementById('root');
+
+ReactDOM.render(<App />, rootElement);
