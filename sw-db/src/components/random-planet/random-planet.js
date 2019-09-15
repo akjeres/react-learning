@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import SWAPIService from '../../services/swapi-service';
 import './random-planet.css';
+import Loader from '../loader/';
 
 export default class RandomPlanet extends Component {
     state = {
@@ -44,7 +45,7 @@ export default class RandomPlanet extends Component {
             rotation_period,
             diameter,
         } } = this.state;
-        console.log(this.state);
+
         return (
             <div className="random-planet jumbotron rounded">
                 <img className="planet-image"
