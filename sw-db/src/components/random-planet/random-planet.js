@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import SWAPIService from '../../services/swapi-service';
 import './random-planet.css';
 import Loader from '../loader/';
+import PlanetView from './planet-view';
 
 export default class RandomPlanet extends Component {
     state = {
-        planet: {}
+        planet: {},
+        loading: true,
     };
 
     swapi = new SWAPIService();
@@ -22,13 +24,16 @@ export default class RandomPlanet extends Component {
             rotation_period,
             diameter } = data;
 
-        this.setState({ planet: {
-            id,
-            name,
-            population,
-            rotation_period,
-            diameter
-        }});
+        this.setState({
+            planet: {
+                id,
+                name,
+                population,
+                rotation_period,
+                diameter
+            },
+            loading: false,
+        });
     };
 
     updatePlanet = () => {
@@ -38,36 +43,14 @@ export default class RandomPlanet extends Component {
     };
 
     render() {
-        const { planet: {
-            id,
-            name,
-            population,
-            rotation_period,
-            diameter,
-        } } = this.state;
+        const { planet, loading } = this.state;
+        const loader = loading ? <Loader/> : null;
+        const content = loading ? null : <PlanetView planet={ this.state.planet }/>;
 
         return (
             <div className="random-planet jumbotron rounded">
-                <img className="planet-image"
-                     src={`https://starwars-visualguide.com/assets/img/planets/${ id }.jpg`}
-                     alt={ name }/>
-                <div>
-                    <h4>{ name }</h4>
-                    <ul className="list-group list-group-flush">
-                        <li className="list-group-item">
-                            <span className="term">Population</span>
-                            <span>{ population }</span>
-                        </li>
-                        <li className="list-group-item">
-                            <span className="term">Rotation Period</span>
-                            <span>{ rotation_period } days</span>
-                        </li>
-                        <li className="list-group-item">
-                            <span className="term">Diameter</span>
-                            <span>{ diameter } km</span>
-                        </li>
-                    </ul>
-                </div>
+                { loader }
+                { content }
             </div>
         );
     };
