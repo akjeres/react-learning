@@ -4,11 +4,7 @@ import './random-planet.css';
 
 export default class RandomPlanet extends Component {
     state = {
-        id: null,
-        name: null,
-        population: null,
-        rotationPeriod: null,
-        diameter: null,
+        planet: {}
     };
 
     swapi = new SWAPIService();
@@ -18,27 +14,37 @@ export default class RandomPlanet extends Component {
         this.updatePlanet();
     };
 
-    updatePlanet = () => {
-        const id = Math.floor(Math.random() * 25) + 2;
-        this.swapi.getPlanet(id)
-        .then((planet) => {
-            const { id, name, population, rotationPeriod, diameter } = planet;
-            console.log(planet);
-            this.setState({
-                id, name, population, rotationPeriod, diameter
-            });
-        });
-    };
+    onDataLoaded = (data) => {
+        const { id,
+            name,
+            population,
+            rotation_period,
+            diameter } = data;
 
-    render() {
-        const {
+        this.setState({ planet: {
             id,
             name,
             population,
-            rotationPeriod,
-            diameter,
-        } = this.state;
+            rotation_period,
+            diameter
+        }});
+    };
 
+    updatePlanet = () => {
+        const id = Math.floor(Math.random() * 25) + 2;
+        this.swapi.getPlanet(id)
+        .then(this.onDataLoaded);
+    };
+
+    render() {
+        const { planet: {
+            id,
+            name,
+            population,
+            rotation_period,
+            diameter,
+        } } = this.state;
+        console.log(this.state);
         return (
             <div className="random-planet jumbotron rounded">
                 <img className="planet-image"
@@ -53,7 +59,7 @@ export default class RandomPlanet extends Component {
                         </li>
                         <li className="list-group-item">
                             <span className="term">Rotation Period</span>
-                            <span>{ rotationPeriod } days</span>
+                            <span>{ rotation_period } days</span>
                         </li>
                         <li className="list-group-item">
                             <span className="term">Diameter</span>
