@@ -22,7 +22,7 @@ export default class App extends Component {
             console.log(person['name']);
         });
         return (
-            <div>
+            <div className="container app">
                 <Header/>
                 <RandomPlanet/>
 
