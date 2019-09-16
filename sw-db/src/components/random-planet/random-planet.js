@@ -4,6 +4,7 @@ import './random-planet.css';
 import Loader from '../loader/';
 import PlanetView from './planet-view';
 import ErrorIndicator from '../error-indicator/';
+import ToggleRandomPlanet from '../toggle-random-planet/';
 
 export default class RandomPlanet extends Component {
     state = {
@@ -14,12 +15,22 @@ export default class RandomPlanet extends Component {
 
     swapi = new SWAPIService();
 
-    constructor() {
-        super();
+    componentDidMount() {
+        const delay = 100000;
+        console.log('Did mount');
         this.updatePlanet();
+        this.interval = setInterval(() => {
+            this.updatePlanet();
+        }, delay);
+    };
+
+    componentWillUnmount() {
+        console.log('Will unmount');
+        clearInterval(this.interval);
     };
 
     onDataLoaded = (data) => {
+
         const { id,
             name,
             population,
@@ -41,13 +52,16 @@ export default class RandomPlanet extends Component {
 
     onError = (err) => {
         console.error(err);
-        this.setState({
-            loading: false,
-            error: true,
+        this.setState(() => {
+            return {
+                loading: false,
+                error: true,
+            }
         });
     };
 
     updatePlanet = () => {
+        console.log('update');
         const id = Math.floor(Math.random() * 25) + 2;
         this.swapi
             .getPlanet(id)
@@ -55,7 +69,9 @@ export default class RandomPlanet extends Component {
             .catch(this.onError);
     };
 
+
     render() {
+        console.log('render');
         const { planet, loading, error } = this.state;
 
         const hasData = !(loading || error);
@@ -65,10 +81,13 @@ export default class RandomPlanet extends Component {
         const content = hasData ? <PlanetView planet={ planet }/> : null;
 
         return (
-            <div className="random-planet jumbotron rounded">
-                { loader }
-                { errorMessage }
-                { content }
+            <div>
+                <div className="random-planet jumbotron rounded">
+                    { loader }
+                    { errorMessage }
+                    { content }
+                </div>
+                <ToggleRandomPlanet togglePlanet={ this.updatePlanet } />
             </div>
         );
     };
