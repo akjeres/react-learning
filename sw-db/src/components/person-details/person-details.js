@@ -1,34 +1,59 @@
 import React, { Component } from 'react';
 import './person-details.css';
+import Loader from '../loader';
+import PersonView from './person-view';
+import SWAPIService from '../../services/swapi-service';
 
 export default class PersonDetails extends Component {
-    constructor() {
-        super();
+    state = {
+        person: null,
+        loading: true,
+    };
+
+    swapi = new SWAPIService();
+
+    updateDetails() {
+        const { personID } = this.props;
+
+        if (!personID)  return;
+        
+        this.setState(( { loading } ) => {
+            return {
+                loading: true,
+            }
+        });
+
+        this.swapi
+            .getPerson(personID)
+            .then((item) => {
+                this.setState({ person: item, loading: false });
+            });
+    };
+
+    componentDidMount() {
+        this.updateDetails();
     }
 
-    render() {
+    componentDidUpdate(prevProps) {
+        if (this.props.personID !== prevProps.personID) {
+            this.updateDetails();
+        }
+    }
+
+    render() {        
+        
+        const { person, loading } = this.state;
+
+        if (!person) {
+            return (
+                <span>Select item from a list</span>
+            );
+        }
+
+        const data = loading ? <Loader /> : <PersonView person={ person }/>;
         return (
             <div className="person-details card">
-                <img className="person-image"
-                     src="https://starwars-visualguide.com/assets/img/characters/1.jpg"
-                     alt="Luke Skywalker"/>
-                <div className="card-body">
-                    <h4>Luke Skywalker</h4>
-                    <ul className="list-group list-group-flush">
-                        <li className="list-group-item">
-                            <span className="term">Gender</span>
-                            <span>Male</span>
-                        </li>
-                        <li className="list-group-item">
-                            <span className="term">Birth Year</span>
-                            <span>19BBY</span>
-                        </li>
-                        <li className="list-group-item">
-                            <span className="term">Hair Color</span>
-                            <span>Blond</span>
-                        </li>
-                    </ul>
-                </div>
+                { data }
             </div>
         );
     };

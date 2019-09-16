@@ -12,15 +12,19 @@ import PlanetDetails from '../planet-details/';
 import SWAPIService from '../../services/swapi-service';
 
 export default class App extends Component {
-    constructor() {
-        super();
+    state = {
+        showRandomPlanet: true,
+        selectedItem: null,
+    };
+
+    onSelectItem = (id) => {
+        this.setState({
+            selectedItem: id,
+        });
     }
 
     render() {
         const swapi = new SWAPIService();
-        swapi.getPerson(10).then(person => {
-            console.log(person['name']);
-        });
         return (
             <div className="container app">
                 <Header/>
@@ -28,10 +32,11 @@ export default class App extends Component {
 
                 <div className="row mb2">
                     <div className="col-md-6">
-                        <ItemsList/>
+                        <ItemsList 
+                            onItemSelected={ this.onSelectItem } />
                     </div>
                     <div className="col-md-6">
-                        <PersonDetails/>
+                        <PersonDetails  personID={ this.state.selectedItem }/>
                     </div>
                 </div>
             </div>

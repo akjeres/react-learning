@@ -15,6 +15,10 @@ export default class SWAPIService {
         return result;
     }
 
+    _transformArr(arr) {
+        return arr.map((i) => this._transformObj(i));
+    }
+
     async getResource(url) {
         const res = await fetch(`${this._apiBase}${url}`);
 
@@ -28,7 +32,7 @@ export default class SWAPIService {
     async getAllPeople() {
         const res = await this.getResource(`/people/`);
 
-        return res.results;
+        return this._transformArr(res.results);
     }
 
     async getPerson(id) {
@@ -40,7 +44,7 @@ export default class SWAPIService {
     async getAllFilms() {
         const res = await this.getResource(`/films/`);
 
-        return res.results;
+        return this._transformArr(res.results);
     }
 
     async getFilm(id) {
@@ -52,7 +56,7 @@ export default class SWAPIService {
     async getAllStarships() {
         const res = await this.getResource(`/starships/`);
 
-        return res.results;
+        return this._transformArr(res.results);
     }
 
     async getStarship(id) {
@@ -64,7 +68,7 @@ export default class SWAPIService {
     async getAllVehicles() {
         const res = await this.getResource(`/vehicles/`);
 
-        return res.results;
+        return this._transformArr(res.results);
     }
 
     async getVehicle(id) {
@@ -76,7 +80,7 @@ export default class SWAPIService {
     async getAllSpecies() {
         const res = await this.getResource(`/species/`);
 
-        return res.results;
+        return this._transformArr(res.results);
     }
 
     async getSpecie(id) {
@@ -88,7 +92,7 @@ export default class SWAPIService {
     async getAllPlanets() {
         const res = await this.getResource(`/planets/`);
 
-        return res.results.map(this._transformPlanet);
+        return this._transformArr(res.results);
     }
 
     async getPlanet(id) {
