@@ -17,10 +17,8 @@ export default class PersonDetails extends Component {
 
         if (!personID)  return;
         
-        this.setState(( { loading } ) => {
-            return {
-                loading: true,
-            }
+        this.setState({
+            loading: true,
         });
 
         this.swapi
@@ -49,10 +47,11 @@ export default class PersonDetails extends Component {
                 <span>Select item from a list</span>
             );
         }
-
-        const data = loading ? <Loader /> : <PersonView person={ person }/>;
+        const loader = loading ? <Loader /> : null;
+        const data = loading ? null : <PersonView person={ person }/>;
         return (
             <div className="person-details card">
+                { loader }
                 { data }
             </div>
         );

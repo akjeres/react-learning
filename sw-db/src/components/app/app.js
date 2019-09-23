@@ -9,27 +9,53 @@ import StarshipDetails from '../starship-details/';
 import VehicleDetails from '../vehicle-details/';
 import SpecieDetails from '../specie-details/';
 import PlanetDetails from '../planet-details/';
+import ToggleRandomPlanet from '../toggle-random-planet/';
+import ErrorButton from '../error-button/';
+import ErrorIndicator from '../error-indicator/';
 import SWAPIService from '../../services/swapi-service';
 
 export default class App extends Component {
     state = {
         showRandomPlanet: true,
         selectedItem: null,
+        hasError: false,
     };
 
     onSelectItem = (id) => {
         this.setState({
             selectedItem: id,
         });
+    };
+
+    componentDidCatch() {
+        console.log('componentDidCatch');
+        this.setState({
+            hasError: true,
+        });
+    };
+
+    toggleRandomPlanetView(e) {
+        const showRandomPlanetFlag = e;
+        this.setState(({ showRandomPlanet }) => {
+            return {
+                showRandomPlanet: !showRandomPlanetFlag,
+            }
+        });
     }
 
     render() {
-        const swapi = new SWAPIService();
+        if (this.state.hasError) {
+            return <ErrorIndicator/>;
+        }
+        const randomPlanetData = this.state.showRandomPlanet ? <RandomPlanet/> : null;
         return (
             <div className="container app">
                 <Header/>
-                <RandomPlanet/>
-
+                { randomPlanetData }
+                <div className="row mb2 button-row">
+                    <ToggleRandomPlanet toggleRandomPlanet={ () => this.toggleRandomPlanetView(this.state.showRandomPlanet) }/>
+                    <ErrorButton />
+                </div>
                 <div className="row mb2">
                     <div className="col-md-6">
                         <ItemsList 

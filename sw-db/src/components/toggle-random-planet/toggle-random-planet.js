@@ -5,17 +5,15 @@ export default class ToggleRandomPlanet extends Component {
     
     constructor(props) {
         super();
-        this.clicHandler = props.togglePlanet;
+        this.clicHandler = props.toggleRandomPlanet;
     }
 
     render() {
         return (
-            <div className='toggle-random-planet'>
                 <button className='btn btn-warning'
                     onClick={ this.clicHandler }>
                         Toggle Random Planet
                 </button>
-            </div>
         );
     };
 }

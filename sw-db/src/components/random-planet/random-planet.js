@@ -16,7 +16,7 @@ export default class RandomPlanet extends Component {
     swapi = new SWAPIService();
 
     componentDidMount() {
-        const delay = 100000;
+        const delay = 5000;
         console.log('Did mount');
         this.updatePlanet();
         this.interval = setInterval(() => {
@@ -81,13 +81,10 @@ export default class RandomPlanet extends Component {
         const content = hasData ? <PlanetView planet={ planet }/> : null;
 
         return (
-            <div>
-                <div className="random-planet jumbotron rounded">
-                    { loader }
-                    { errorMessage }
-                    { content }
-                </div>
-                <ToggleRandomPlanet togglePlanet={ this.updatePlanet } />
+            <div className="random-planet jumbotron rounded">
+                { loader }
+                { errorMessage }
+                { content }
             </div>
         );
     };
