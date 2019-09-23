@@ -1,22 +1,30 @@
 import React, { Component } from 'react';
 import './items-list.css';
-import SWAPIService from '../../services/swapi-service';
 import Loader from '../loader/';
+import ErrorIndicator from '../error-indicator/';
+import ErrorButton from '../error-button/';
 
 export default class ItemsList extends Component {
-    swapi = new SWAPIService();
 
     state = {
         itemList: null,
+        hasError: false,
     };
 
     componentDidMount() {
-        this.swapi.getAllPeople()
-            .then((response) => {
-                console.log(response);
-                this.setState({ itemList: response });
-            });
+        const { getData, pathName = 'vehicles' } = this.props;
+        getData(pathName)
+        .then((response) => {
+            console.log(response);
+            this.setState({ itemList: response });
+        });
     };
+
+    componentDidCatch() {
+        this.setState({
+            hasError: true,
+        });
+    }
 
     renderItems(arr) {
         return arr.map(({ id, name }) => {
@@ -34,8 +42,12 @@ export default class ItemsList extends Component {
     }
 
     render() {
-        const { itemList } = this.state;
+        const { itemList, hasError } = this.state;
         
+        if (hasError) {
+            return <ErrorIndicator />
+        }
+
         if (!itemList) {
             return <Loader />
         }
