@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import './app.css';
 import Header from '../header/';
 import RandomPlanet from '../random-planet/';
-import ItemsList from '../items-list/';
-import PersonDetails from '../person-details/';
+import Page from '../page/';
 import FilmDetails from '../film-details/';
 import StarshipDetails from '../starship-details/';
 import VehicleDetails from '../vehicle-details/';
@@ -17,7 +16,6 @@ import SWAPIService from '../../services/swapi-service';
 export default class App extends Component {
     state = {
         showRandomPlanet: true,
-        selectedItem: null,
         hasError: false,
     };
 
@@ -56,15 +54,7 @@ export default class App extends Component {
                     <ToggleRandomPlanet toggleRandomPlanet={ () => this.toggleRandomPlanetView(this.state.showRandomPlanet) }/>
                     <ErrorButton />
                 </div>
-                <div className="row mb2">
-                    <div className="col-md-6">
-                        <ItemsList 
-                            onItemSelected={ this.onSelectItem } />
-                    </div>
-                    <div className="col-md-6">
-                        <PersonDetails  personID={ this.state.selectedItem }/>
-                    </div>
-                </div>
+                <Page />
             </div>
         );
     };

@@ -1,4 +1,5 @@
 import React from 'react';
+import ErrorButton from '../error-button/';
 
 const PersonView = ({ person }) => {
     console.log('person: ', person);
@@ -37,6 +38,7 @@ const PersonView = ({ person }) => {
                     <ul className="list-group list-group-flush">
                         { data }
                     </ul>
+                    <ErrorButton />
                 </div>
         </React.Fragment>
     );
