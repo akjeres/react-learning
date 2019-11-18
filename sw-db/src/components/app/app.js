@@ -14,6 +14,7 @@ import ErrorIndicator from '../error-indicator/';
 import SWAPIService from '../../services/swapi-service';
 import Row from '../row/';
 import ItemsList from '../items-list/';
+import ErrorBoundry from '../error-boundry';
 
 export default class App extends Component {
     state = {
@@ -46,31 +47,20 @@ export default class App extends Component {
     }
 
     render() {
-        if (this.state.hasError) {
-            return <ErrorIndicator/>;
-        }
         const randomPlanetData = this.state.showRandomPlanet ? <RandomPlanet/> : null;
         return (
-            <div className="container app">
-                <Header/>
-                { randomPlanetData }
-                <div className="row mb2 button-row">
-                    <ToggleRandomPlanet toggleRandomPlanet={ () => this.toggleRandomPlanetView(this.state.showRandomPlanet) }/>
-                    <ErrorButton />
+            <ErrorBoundry>
+                <div className="container app">
+                    <Header/>
+                    { randomPlanetData }
+                    <div className="row mb2 button-row">
+                        <ToggleRandomPlanet toggleRandomPlanet={ () => this.toggleRandomPlanetView(this.state.showRandomPlanet) }/>
+                        <ErrorButton />
+                    </div>
+                    <Page 
+                        apiPath={'people'} />
                 </div>
-                <Page 
-                    apiPath={'people'} />
-                <Row left={
-                        <ItemsList 
-                            onItemSelected={ this.onSelectItem }
-                            getData={ this.swapi.getList }
-                            pathName={ 'people' } 
-                            renderItem={ ({ name, gender, birth_year }) => `${name} (${gender}), ${birth_year}` }/>
-                        }
-                     right={
-                        <PersonDetails  personID={ this.state.selectedItem }/>
-                     }/>
-            </div>
+            </ErrorBoundry>
         );
     };
 };

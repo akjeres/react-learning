@@ -28,7 +28,7 @@ export default class ItemsList extends Component {
 
     renderItems(arr) {
         return arr.map((item) => {
-            const value = this.props.renderItem( item );
+            const value = this.props.children( item );
             const { id } = item;
 
             return(
