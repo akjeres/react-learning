@@ -3,6 +3,7 @@ import './page.css';
 import ItemsList from '../items-list/';
 import PersonDetails from '../person-details/';
 import ErrorIndicator from '../error-indicator/';
+import Row from '../row/';
 import SWAPIService from '../../services/swapi-service';
 
 export default class Page extends Component{
@@ -33,19 +34,20 @@ export default class Page extends Component{
             return <ErrorIndicator/>;
         }
         const path = this.props.apiPath;
-        return(
-            <div className="row mb2">
-                <div className="col-md-6">
-                    <ItemsList 
+        const itemList = (
+            <ItemsList 
                         onItemSelected={ this.onSelectItem }
                         getData={ this.swapi.getList }
                         pathName={ path }
-                        renderItem={ (item) => item.name } />
-                </div>
-                <div className="col-md-6">
-                    <PersonDetails  personID={ this.state.selectedItem }/>
-                </div>
-            </div>
+                        renderItem={ ({ name, gender, birth_year }) => `${name} (${gender}), ${birth_year}` } />
+        );
+        const personDetails = (
+            <PersonDetails  personID={ this.state.selectedItem }/>
+        );
+
+        return (
+            <Row left={ itemList }
+                    right={ personDetails }/>
         );
     }
 };

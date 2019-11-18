@@ -12,6 +12,7 @@ import ToggleRandomPlanet from '../toggle-random-planet/';
 import ErrorButton from '../error-button/';
 import ErrorIndicator from '../error-indicator/';
 import SWAPIService from '../../services/swapi-service';
+import Row from '../row/';
 import ItemsList from '../items-list/';
 
 export default class App extends Component {
@@ -59,32 +60,16 @@ export default class App extends Component {
                 </div>
                 <Page 
                     apiPath={'people'} />
-                <div className="row mb2">
-                    <div className="col-md-6">
+                <Row left={
                         <ItemsList 
                             onItemSelected={ this.onSelectItem }
                             getData={ this.swapi.getList }
                             pathName={ 'people' } 
                             renderItem={ ({ name, gender, birth_year }) => `${name} (${gender}), ${birth_year}` }/>
-                            
-                    </div>
-                    <div className="col-md-6">
+                        }
+                     right={
                         <PersonDetails  personID={ this.state.selectedItem }/>
-                    </div>
-                </div>
-                <div className="row mb2">
-                    <div className="col-md-6">
-                        <ItemsList 
-                            onItemSelected={ this.onSelectItem }
-                            getData={ this.swapi.getList }
-                            pathName={ 'planets' } 
-                            renderItem={ (item) => item.name }/>
-                            
-                    </div>
-                    <div className="col-md-6">
-                        <PersonDetails  personID={ this.state.selectedItem }/>
-                    </div>
-                </div>
+                     }/>
             </div>
         );
     };
