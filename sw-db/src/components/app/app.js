@@ -10,9 +10,9 @@ import SpecieDetails from '../specie-details/';
 import PersonDetails from '../person-details/';
 import ToggleRandomPlanet from '../toggle-random-planet/';
 import ErrorButton from '../error-button/';
-import ErrorIndicator from '../error-indicator/';
 import SWAPIService from '../../services/swapi-service';
 import Row from '../row/';
+import ItemDetails from '../item-details/';
 import ItemsList from '../items-list/';
 import ErrorBoundry from '../error-boundry';
 
@@ -30,13 +30,6 @@ export default class App extends Component {
 
     swapi = new SWAPIService();
 
-    componentDidCatch() {
-        console.log('componentDidCatch');
-        this.setState({
-            hasError: true,
-        });
-    };
-
     toggleRandomPlanetView(e) {
         const showRandomPlanetFlag = e;
         this.setState(({ showRandomPlanet }) => {
@@ -48,17 +41,31 @@ export default class App extends Component {
 
     render() {
         const randomPlanetData = this.state.showRandomPlanet ? <RandomPlanet/> : null;
+        const { getSingle } = this.swapi;
+
+        const l = <ItemDetails 
+                   itemID={ 11 }
+                   path={'people'}
+                   getData={getSingle}/>;
+        const r = <ItemDetails  
+                   itemID={ 5 } 
+                   path={'planets'} 
+                   getData={getSingle}/>;
         return (
             <ErrorBoundry>
                 <div className="container app">
                     <Header/>
-                    { randomPlanetData }
+                    {/* { randomPlanetData }
                     <div className="row mb2 button-row">
                         <ToggleRandomPlanet toggleRandomPlanet={ () => this.toggleRandomPlanetView(this.state.showRandomPlanet) }/>
                         <ErrorButton />
-                    </div>
-                    <Page 
+                    </div> */}
+                    <Row left={ l }
+                         right={ r }/>
+                    {/* <Page 
                         apiPath={'people'} />
+                    <Page 
+                        apiPath={'planets'} /> */}
                 </div>
             </ErrorBoundry>
         );

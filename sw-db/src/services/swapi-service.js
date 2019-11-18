@@ -2,13 +2,22 @@ export default class SWAPIService {
     _apiBase = 'https://swapi.co/api';
     _getID(item) {
         return item.url.match(/\/(\d+)\/$/i)[1];
+    };
+    _imgBase = 'https://starwars-visualguide.com/assets/img/';
+    _processDictionary = (input) => {
+        switch (input) {
+            case 'people':
+                return 'characters';
+            default:
+                return input;
+        }
     }
     _transformObj(obj) {
         const result = {
             id: this._getID(obj),
         };
         for (let key in obj) {
-            if ( ~['url', 'edited', 'created', 'episode_id'].indexOf(key) ) continue;
+            if ( ~['url', 'edited', 'created', 'episode_id', 'people', 'residents'].indexOf(key) ) continue;
             result[key] = obj[key];
         }
 
@@ -36,9 +45,11 @@ export default class SWAPIService {
     }
     
     getSingle = async (path_without_covering_slashes, id) => {
-        const res = await this.getResource(`/${path_without_covering_slashes}/${id}/`);
+        const person = await this.getResource(`/${path_without_covering_slashes}/${id}/`);
+        const result = this._transformObj(person);
+        result.image = `${this._imgBase}${this._processDictionary(path_without_covering_slashes)}/${id}.jpg`;     
 
-        return this._transformArr(res.results);
+        return result;
     }
 
     getAllPeople = async () => {

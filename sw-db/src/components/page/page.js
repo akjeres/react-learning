@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './page.css';
 import ItemsList from '../items-list/';
-import PersonDetails from '../person-details/';
+import ItemDetails from '../item-details/';
 import ErrorIndicator from '../error-indicator/';
 import ErrorBoundry from '../error-boundry/';
 import Row from '../row/';
@@ -33,15 +33,16 @@ export default class Page extends Component{
         );
         const personDetails = (
             <ErrorBoundry>
-                <PersonDetails  personID={ this.state.selectedItem }/>
+                <ItemDetails 
+                    itemID={ this.state.selectedItem } 
+                    path={ path } 
+                    getData={ this.swapi.getSingle }/>
             </ErrorBoundry>
         );
 
         return (
-            // <ErrorBoundry>
-                <Row left={ itemList }
-                    right={ personDetails }/>
-            // </ErrorBoundry>
+            <Row left={ itemList }
+                right={ personDetails }/>
         );
     }
 };
