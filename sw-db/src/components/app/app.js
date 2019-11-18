@@ -64,7 +64,21 @@ export default class App extends Component {
                         <ItemsList 
                             onItemSelected={ this.onSelectItem }
                             getData={ this.swapi.getList }
-                            pathName={ 'planets' } />
+                            pathName={ 'people' } 
+                            renderItem={ ({ name, gender, birth_year }) => `${name} (${gender}), ${birth_year}` }/>
+                            
+                    </div>
+                    <div className="col-md-6">
+                        <PersonDetails  personID={ this.state.selectedItem }/>
+                    </div>
+                </div>
+                <div className="row mb2">
+                    <div className="col-md-6">
+                        <ItemsList 
+                            onItemSelected={ this.onSelectItem }
+                            getData={ this.swapi.getList }
+                            pathName={ 'planets' } 
+                            renderItem={ (item) => item.name }/>
                             
                     </div>
                     <div className="col-md-6">

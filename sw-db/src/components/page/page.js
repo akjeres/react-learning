@@ -39,7 +39,8 @@ export default class Page extends Component{
                     <ItemsList 
                         onItemSelected={ this.onSelectItem }
                         getData={ this.swapi.getList }
-                        pathName={ path } />
+                        pathName={ path }
+                        renderItem={ (item) => item.name } />
                 </div>
                 <div className="col-md-6">
                     <PersonDetails  personID={ this.state.selectedItem }/>

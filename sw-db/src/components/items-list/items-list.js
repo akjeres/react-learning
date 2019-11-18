@@ -27,7 +27,10 @@ export default class ItemsList extends Component {
     }
 
     renderItems(arr) {
-        return arr.map(({ id, name }) => {
+        return arr.map((item) => {
+            const value = this.props.renderItem( item );
+            const { id } = item;
+
             return(
                 <li className="list-group-item"
                     key={ id }
@@ -35,7 +38,7 @@ export default class ItemsList extends Component {
                         this.props.onItemSelected(id);
                     } }
                 >
-                    { name }
+                    { value }
                 </li>
             );
         });
