@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import ErrorButton from '../error-button';
 
-const Record = ({ field, label }) => {
+const Record = ({ item, field, label }) => {
+    console.log('item: ', item);
   return (
       <li className="list-group-item">
           <span className="term">{ label }:</span>
-          <span>{ field }</span>
+          <span>{ item[field] }</span>
       </li>
   );
 };
@@ -17,7 +18,9 @@ export {
 export default class ItemView extends Component {
 
     render() {
-        const { image, name } = this.props.item;
+        const item = this.props.item;
+        const { image, name } = item;
+
         return (
             <React.Fragment>
                 <img className="item-image"
@@ -28,8 +31,8 @@ export default class ItemView extends Component {
                     <ul className="list-group list-group-flush">
                         {
                             React.Children.map(this.props.children, (child) => {
-                                console.log('item: ', child);
-                                return child;
+
+                                return React.cloneElement(child, { item });
                             })
                         }
                     </ul>

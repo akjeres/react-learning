@@ -49,12 +49,15 @@ export default class App extends Component {
                    getData={getSingle}>
                     <Record label="Gender" field="gender" />
                     <Record label="Eye color" field="eye_color" />
+                    <Record label="Birth Year" field="birth_year" />
                   </ItemDetails>;
         const r = <ItemDetails  
                    itemID={ 5 } 
-                   path={'planets'} 
+                   path={'starships'}
                    getData={getSingle}>
-                    <Record label="Label" field="filed" />
+                    <Record label="Model" field="model" />
+                    <Record label="Length" field="length" />
+                    <Record label="Cost" field="cost_in_credits" />
                   </ItemDetails>;
         return (
             <ErrorBoundry>
