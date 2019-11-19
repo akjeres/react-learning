@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './page.css';
 import ItemsList from '../items-list/';
-import ItemDetails from '../item-details/';
+import ItemDetails, { Record } from '../item-details/';
 import ErrorIndicator from '../error-indicator/';
 import ErrorBoundry from '../error-boundry/';
 import Row from '../row/';
@@ -11,7 +11,7 @@ import SWAPIService from '../../services/swapi-service';
 export default class Page extends Component{
     state = {
         selectedItem: null,
-    }
+    };
 
     swapi = new SWAPIService();
 
@@ -28,21 +28,25 @@ export default class Page extends Component{
                         onItemSelected={ this.onSelectItem }
                         getData={ this.swapi.getList }
                         pathName={ path }>
-                {(i) => (`${i.name} (${i.birth_year})`)}
+                { i => i.name }
             </ItemsList>
         );
-        const personDetails = (
+        const itemDetails = (
             <ErrorBoundry>
                 <ItemDetails 
                     itemID={ this.state.selectedItem } 
                     path={ path } 
-                    getData={ this.swapi.getSingle }/>
+                    getData={ this.swapi.getSingle }>
+                    <Record label="Gender" field="gender" />
+                    <Record label="Eye color" field="eye_color" />
+                    <Record label="Birth Year" field="birth_year" />
+                </ItemDetails>
             </ErrorBoundry>
         );
 
         return (
             <Row left={ itemList }
-                right={ personDetails }/>
+                right={ itemDetails }/>
         );
     }
 };

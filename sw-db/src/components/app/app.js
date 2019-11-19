@@ -70,10 +70,10 @@ export default class App extends Component {
                     </div> */}
                     <Row left={ l }
                          right={ r }/>
-                    {/* <Page 
-                        apiPath={'people'} />
-                    <Page 
-                        apiPath={'planets'} /> */}
+                    {/*<Page*/}
+                        {/*apiPath={'people'} />*/}
+                    {/*<Page */}
+                        {/*apiPath={'planets'} />*/}
                 </div>
             </ErrorBoundry>
         );
