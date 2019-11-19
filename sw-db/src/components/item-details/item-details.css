@@ -17,7 +17,3 @@
 .item-details .list-group-item .term{
     margin-right: .5rem;
 }
-
-.item-details .list-group-item span {
-    text-transform: capitalize;
-}

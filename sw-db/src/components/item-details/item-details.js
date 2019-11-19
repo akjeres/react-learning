@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import './item-details.css';
 import Loader from '../loader';
-import ItemView from './item-view';
+import ItemView, { Record } from './item-view';
 import SWAPIService from '../../services/swapi-service';
+
+export {
+    Record
+};
 
 export default class ItemDetails extends Component {
     state = {
@@ -52,7 +56,9 @@ export default class ItemDetails extends Component {
             );
         }
         const loader = loading ? <Loader /> : null;
-        const data = loading ? null : <ItemView item={ item } path={ path }/>;
+        const data = loading ? null : (<ItemView item={ item } path={ path } >
+                                            { this.props.children }
+                                       </ItemView>);
         return (
             <div className="item-details card">
                 { loader }

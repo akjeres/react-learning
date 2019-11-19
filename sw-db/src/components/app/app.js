@@ -12,7 +12,7 @@ import ToggleRandomPlanet from '../toggle-random-planet/';
 import ErrorButton from '../error-button/';
 import SWAPIService from '../../services/swapi-service';
 import Row from '../row/';
-import ItemDetails from '../item-details/';
+import ItemDetails, { Record } from '../item-details/';
 import ItemsList from '../items-list/';
 import ErrorBoundry from '../error-boundry';
 
@@ -46,11 +46,16 @@ export default class App extends Component {
         const l = <ItemDetails 
                    itemID={ 11 }
                    path={'people'}
-                   getData={getSingle}/>;
+                   getData={getSingle}>
+                    <Record label="Gender" field="gender" />
+                    <Record label="Eye color" field="eye_color" />
+                  </ItemDetails>;
         const r = <ItemDetails  
                    itemID={ 5 } 
                    path={'planets'} 
-                   getData={getSingle}/>;
+                   getData={getSingle}>
+                    <Record label="Label" field="filed" />
+                  </ItemDetails>;
         return (
             <ErrorBoundry>
                 <div className="container app">
