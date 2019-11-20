@@ -1,65 +1,36 @@
 import React, { Component } from 'react';
 import './items-list.css';
-import Loader from '../loader/';
-import ErrorIndicator from '../error-indicator/';
-import ErrorButton from '../error-button/';
+import { withData } from '../hoc-helpers/';
+import SWAPIService from '../../services/swapi-service'
 
-export default class ItemsList extends Component {
-
-    state = {
-        itemList: null,
-        hasError: false,
-    };
-
-    componentDidMount() {
-        const { getData, pathName = 'vehicles' } = this.props;
-        getData(pathName)
-        .then((response) => {
-            console.log(response);
-            this.setState({ itemList: response });
-        });
-    };
-
-    componentDidCatch() {
-        this.setState({
-            hasError: true,
-        });
-    }
-
-    renderItems(arr) {
+const ItemsList = (props) => {
+    const { data, onItemSelected, children: renderLabel } = props;
+    const _renderItems = (arr) => {
         return arr.map((item) => {
-            const value = this.props.children( item );
             const { id } = item;
+            const label = renderLabel(item);
 
             return(
                 <li className="list-group-item"
                     key={ id }
                     onClick={ (e) => {
-                        this.props.onItemSelected(id);
+                        onItemSelected(id);
                     } }
                 >
-                    { value }
+                    { label }
                 </li>
             );
         });
-    }
-
-    render() {
-        const { itemList, hasError } = this.state;
-        
-        if (hasError) {
-            return <ErrorIndicator />
-        }
-
-        if (!itemList) {
-            return <Loader />
-        }
-
-        const items = this.renderItems(itemList);
-        return (
-            <ul className="items-list list-group">
-                { items }
-            </ul>
-        );
     };
+
+    const items = _renderItems(data);
+    return (
+        <ul className="items-list list-group">
+            { items }
+        </ul>
+    );
 };
+
+const { getList } = new SWAPIService();
+
+export default withData(ItemsList, getList);
