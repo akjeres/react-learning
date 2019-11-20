@@ -2,7 +2,12 @@ import React, { Component } from 'react';
 import './page.css';
 import ItemsList from '../items-list/';
 import ItemDetails, { Record } from '../item-details/';
-import ErrorIndicator from '../error-indicator/';
+import {
+    List,
+    PlanetsDetails,
+    StarshipsDetails,
+    PeopleList,
+} from '../sw-components/';
 import ErrorBoundry from '../error-boundry/';
 import Row from '../row/';
 
@@ -24,29 +29,20 @@ export default class Page extends Component{
     render() {
         const path = this.props.apiPath;
         const itemList = (
-            <ItemsList 
-                        onItemSelected={ this.onSelectItem }
-                        getData={ this.swapi.getList }
-                        pathName={ path }>
+            <List pathName={path} onItemSelected={ this.onSelectItem }>
                 { i => i.name }
-            </ItemsList>
+            </List>
         );
         const itemDetails = (
             <ErrorBoundry>
-                <ItemDetails 
-                    itemID={ this.state.selectedItem } 
-                    path={ path } 
-                    getData={ this.swapi.getSingle }>
-                    <Record label="Gender" field="gender" />
-                    <Record label="Eye color" field="eye_color" />
-                    <Record label="Birth Year" field="birth_year" />
-                </ItemDetails>
+                <PlanetsDetails id={ this.state.selectedItem } />
             </ErrorBoundry>
         );
-
         return (
-            <Row left={ itemList }
-                right={ itemDetails }/>
+            <React.Fragment>
+                <Row left={ itemList }
+                    right={ itemDetails }/>
+            </React.Fragment>
         );
     }
 };
